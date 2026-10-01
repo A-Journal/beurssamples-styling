@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Beurssamples styling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: een line sheet. Kop met totalen, daarna per productgroep een raster van foto-tegels
+   met naam, SKU en aantal; onderaan een genummerde lijst met open keuzes. */
+:root {
+  --bg: #f3f4f9;
+  --surface: #ffffff;
+  --ink: #24121a;
+  --muted: #6a5d66;
+  --line: #dcdae4;
+  --accent: #b3123a;
+  --accent-soft: #fbe2e9;
+  --flag: #1d4a9e;
+  --flag-soft: #e1eafb;
+  --photo: #ffffff;
+  --photo-ink: #6a5d66;
+  --display: "Bricolage Grotesque", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17121a; --surface: #211a25; --ink: #f4edf0; --muted: #b5a8b0; --line: #3b3142;
+    --accent: #ff7f9e; --accent-soft: #4a1b2b; --flag: #a3c0ff; --flag-soft: #1d2b4c;
+    --photo: #ffffff; --photo-ink: #6a5d66; color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.45; }
+img { max-width: 100%; }
+.page { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 36px 56px; display: flex; flex-direction: column; gap: 44px; }
+h1, h2, h3, p, ol { margin: 0; }
+a { color: inherit; }
+a:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--flag); outline-offset: 2px; }
+
+.top { display: flex; flex-direction: column; gap: 18px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 700; font-size: clamp(34px, 6vw, 58px); line-height: 1; letter-spacing: -.02em; text-wrap: balance; }
+.lede { max-width: 62ch; color: var(--muted); font-size: 16px; }
+.stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 28px; padding-block: 14px; border-block: 1px solid var(--line); }
+.stat { display: flex; align-items: baseline; gap: 8px; }
+.stat b { font-family: var(--display); font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat span { color: var(--muted); font-size: 13px; }
+.stat--open b { color: var(--flag); }
+.stat--open a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.print-btn { margin-left: auto; font: inherit; font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 12px; cursor: pointer; }
+.print-btn:hover { border-color: var(--ink); }
+
+.group { display: flex; flex-direction: column; gap: 16px; }
+.group-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: -.01em; }
+.group-head p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 28px 20px; }
+
+.item { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.shot { aspect-ratio: 600 / 436; max-width: 100%; background: var(--photo); border: 1px solid var(--line); border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 4%; margin-bottom: 6px; text-decoration: none; overflow: hidden; }
+.shot img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.shot-fallback { display: none; color: var(--photo-ink); font-family: var(--mono); font-size: 11px; text-align: center; }
+.shot--none { border-style: dashed; }
+.shot--none img { display: none; }
+.shot--none .shot-fallback { display: block; }
+a.shot:hover { border-color: var(--ink); }
+.item h3 { font-family: var(--body); font-weight: 600; font-size: 15px; line-height: 1.3; text-wrap: balance; }
+.sku { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: .02em; }
+.qty { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin-top: 2px; }
+.qty strong { font-family: var(--display); font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.qty span { font-size: 13px; color: var(--muted); }
+.flag { align-self: flex-start; font-size: 12px; color: var(--flag); background: var(--flag-soft); padding: 2px 8px; border-radius: 3px; }
+.pick { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 4px; cursor: pointer; align-self: flex-start; }
+.pick input { width: 17px; height: 17px; margin: 0; accent-color: var(--accent); }
+.item:has(input:checked) .shot { border-color: var(--accent); }
+.item:has(input:checked) .pick { color: var(--accent); }
+
+.open { display: flex; flex-direction: column; gap: 18px; }
+.open-intro { max-width: 62ch; color: var(--muted); }
+.doubts { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; counter-reset: punt; }
+.doubt { counter-increment: punt; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px 20px; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 14px; row-gap: 6px; scroll-margin-top: 16px; }
+.doubt::before { content: counter(punt); grid-row: 1 / span 3; font-family: var(--display); font-weight: 700; font-size: 26px; line-height: 1; color: var(--flag); font-variant-numeric: tabular-nums; min-width: 1.2em; }
+.doubt h3 { font-family: var(--display); font-weight: 700; font-size: 18px; line-height: 1.25; text-wrap: balance; }
+.why { color: var(--muted); max-width: 68ch; font-size: 14px; }
+.opts { display: flex; flex-wrap: wrap; gap: 14px 28px; margin-top: 10px; }
+.opt { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.opt-head { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.opt--assumed .opt-head { color: var(--accent); }
+.opt-letter { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--bg); font-size: 11px; letter-spacing: 0; }
+.opt--assumed .opt-letter { background: var(--accent); color: var(--surface); }
+.minis { display: flex; flex-wrap: wrap; gap: 12px; }
+.mini { width: 140px; max-width: 100%; display: flex; flex-direction: column; gap: 2px; }
+.mini .shot { margin-bottom: 4px; }
+.mini-name { font-size: 12.5px; line-height: 1.3; font-weight: 500; }
+.mini .sku { font-size: 11px; }
+
+.foot { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 13px; max-width: 78ch; }
+
+@media (max-width: 460px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+  .doubt { padding: 16px; column-gap: 10px; }
+  .mini { width: 118px; }
+  .print-btn { margin-left: 0; }
+}
+@media print {
+  @page { size: A4; margin: 12mm; }
+  :root { --bg: #fff; --surface: #fff; --ink: #24121a; --muted: #6a5d66; --line: #dcdae4; --accent: #b3123a; --flag: #1d4a9e; --flag-soft: #e1eafb; }
+  body { font-size: 11px; }
+  .page { padding: 0; gap: 22px; max-width: none; }
+  h1 { font-size: 34px; }
+  .print-btn { display: none; }
+  .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 12px; }
+  .item, .doubt, .group-head { break-inside: avoid; }
+  .group-head { break-after: avoid; }
+  .item h3 { font-size: 11px; }
+  .qty strong { font-size: 15px; }
+  .qty span, .pick, .flag { font-size: 10px; }
+  .open { break-before: page; }
+  .flag, .opt-letter { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .mini { width: 96px; }
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="top">
+    <p class="eyebrow">Samples voor de styling department</p>
+    <h1>Beurssamples styling</h1>
+    <p class="lede">De producten die we op de beurs klaarleggen, met het aantal per product. Klik op een foto om hem groot te openen. Vink af wat klaarligt; dat blijft bewaard op dit apparaat.</p>
+    <div class="stats">
+      <p class="stat"><b>29</b><span>producten</span></p>
+      <p class="stat"><b>346</b><span>stuks in totaal</span></p>
+      <p class="stat"><b>6</b><span>stuks per doosje</span></p>
+      <p class="stat"><b id="picked">0</b><span>van 29 klaargelegd</span></p>
+      <p class="stat stat--open"><b>9</b><span><a href="#te-bevestigen">punten te bevestigen</a></span></p>
+      <button type="button" class="print-btn" id="print-btn">Print of bewaar als PDF</button>
+    </div>
+  </header>
+<section class="group">
+  <header class="group-head"><h2>Notebooks &amp; journals</h2><p>9 producten · 60 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2023/01/A-Journal_c_The-Fresh-Light_005.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2023/01/A-Journal_c_The-Fresh-Light_005-600x436.png.jpg" alt="A-Journal Notebook - Flow" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook - Flow</h3>
+  <p class="sku">MYJ.91044</p>
+  <p class="qty"><strong>12 st</strong><span>2 doosjes à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91044"><input type="checkbox" id="pick-MYJ-91044" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2021/04/voorkant-website-10-scaled.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2021/04/voorkant-website-10-scaled-600x436.jpg" alt="A-Journal Notebook - Arty" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook - Arty</h3>
+  <p class="sku">MYJ.91032</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-1">1</a></p>
+  <label class="pick" for="pick-MYJ-91032"><input type="checkbox" id="pick-MYJ-91032" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/62a2bb7f72137137b8de8a334e5a46ee20be85a443a0f9e2e1ea5f0515232b26.jpeg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/62a2bb7f72137137b8de8a334e5a46ee20be85a443a0f9e2e1ea5f0515232b26-600x436.jpeg" alt="A-Journal Notebook Arty Blue Green" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook Arty Blue Green</h3>
+  <p class="sku">MYJ.91082</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91082"><input type="checkbox" id="pick-MYJ-91082" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal_006.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal_006-600x436.png.jpg" alt="A-Journal Notebook - Flow Pink" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook - Flow Pink</h3>
+  <p class="sku">MYJ.91057</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91057"><input type="checkbox" id="pick-MYJ-91057" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/10/MYJ.91130-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/10/MYJ.91130-scaled-1-600x436.jpg" alt="A-Journal Notebook Flow Cherry" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook Flow Cherry</h3>
+  <p class="sku">MYJ.91130</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91130"><input type="checkbox" id="pick-MYJ-91130" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/09/MYJ.91165.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/09/MYJ.91165-600x436.png.jpg" alt="A-Journal Notebook Checkered Circus Blue White" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notebook Checkered Circus Blue White</h3>
+  <p class="sku">MYJ.91165</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-9">9</a></p>
+  <label class="pick" for="pick-MYJ-91165"><input type="checkbox" id="pick-MYJ-91165" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-26_065-1-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-26_065-1-scaled-1-600x436.jpg" alt="Personal Journal Stripes" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>Personal Journal Stripes</h3>
+  <p class="sku">FAB.91235</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-FAB-91235"><input type="checkbox" id="pick-FAB-91235" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/8720618609045.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/8720618609045-600x436.png.jpg" alt="One Line A Day Journal - Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>One Line A Day Journal - Linen</h3>
+  <p class="sku">MYJ.91040</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91040"><input type="checkbox" id="pick-MYJ-91040" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/A-Journal-2025-26-extra_014-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/A-Journal-2025-26-extra_014-scaled-1-600x436.png.jpg" alt="A-Journal One Line A Day - Pink Checkered" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal One Line A Day - Pink Checkered</h3>
+  <p class="sku">MYJ.91107</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91107"><input type="checkbox" id="pick-MYJ-91107" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+<section class="group">
+  <header class="group-head"><h2>Notepads</h2><p>2 producten · 60 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-new_011-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-new_011-scaled-1-600x436.jpg" alt="A-Journal Notepad Arty Lavender" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notepad Arty Lavender</h3>
+  <p class="sku">MYJ.91078</p>
+  <p class="qty"><strong>30 st</strong><span>5 doosjes à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91078"><input type="checkbox" id="pick-MYJ-91078" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-new_005-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/A-Journal-2025-new_005-scaled-1-600x436.jpg" alt="A-Journal Notepad Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notepad Pink Red</h3>
+  <p class="sku">MYJ.91079</p>
+  <p class="qty"><strong>30 st</strong><span>5 doosjes à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-91079"><input type="checkbox" id="pick-MYJ-91079" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+<section class="group">
+  <header class="group-head"><h2>Agenda&#x27;s &amp; kalenders</h2><p>7 producten · 90 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27023-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27023-scaled-1-600x436.jpg" alt="A-Planner Diary 2027 - Beige Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Planner Diary 2027 - Beige Linen</h3>
+  <p class="sku">MYJ.27023</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-2">2</a></p>
+  <label class="pick" for="pick-MYJ-27023"><input type="checkbox" id="pick-MYJ-27023" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27024-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27024-scaled-1-600x436.jpg" alt="A-Planner Diary 2027 - Pink Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Planner Diary 2027 - Pink Linen</h3>
+  <p class="sku">MYJ.27024</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-2">2</a></p>
+  <label class="pick" for="pick-MYJ-27024"><input type="checkbox" id="pick-MYJ-27024" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27016-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27016-scaled-1-600x436.jpg" alt="My Journal Diary 2027 - Checked Blue Chocolate" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>My Journal Diary 2027 - Checked Blue Chocolate</h3>
+  <p class="sku">MYJ.27016</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-27016"><input type="checkbox" id="pick-MYJ-27016" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27002-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27002-scaled-1-600x436.jpg" alt="My Journal Diary 2027 - Floral Dark Blue/Light Blue" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>My Journal Diary 2027 - Floral Dark Blue/Light Blue</h3>
+  <p class="sku">MYJ.27002</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-7">7</a></p>
+  <label class="pick" for="pick-MYJ-27002"><input type="checkbox" id="pick-MYJ-27002" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27004-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27004-scaled-1-600x436.jpg" alt="My Journal Diary 2027 - Chocolate" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>My Journal Diary 2027 - Chocolate</h3>
+  <p class="sku">MYJ.27004</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-7">7</a></p>
+  <label class="pick" for="pick-MYJ-27004"><input type="checkbox" id="pick-MYJ-27004" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27036.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27036-600x436.png.jpg" alt="A-Journal Desk Calendar - Pink Red 2027" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Desk Calendar - Pink Red 2027</h3>
+  <p class="sku">MYJ.27036</p>
+  <p class="qty"><strong>30 st</strong><span>5 doosjes à 6</span></p>
+  
+  <label class="pick" for="pick-MYJ-27036"><input type="checkbox" id="pick-MYJ-27036" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2023/10/A-Journal_2024-extra_010.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2023/10/A-Journal_2024-extra_010-600x436.png.jpg" alt="Fabrique a la Carte Birthday Calender - Sun" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>Fabrique a la Carte Birthday Calender - Sun</h3>
+  <p class="sku">FAB.91220</p>
+  <p class="qty"><strong>30 st</strong><span>5 doosjes à 6</span></p>
+  
+  <label class="pick" for="pick-FAB-91220"><input type="checkbox" id="pick-FAB-91220" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+<section class="group">
+  <header class="group-head"><h2>Kitchen</h2><p>3 producten · 18 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/recipe-def.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/recipe-def-600x436.jpg" alt="A-Journal Recipe Journal" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Recipe Journal</h3>
+  <p class="sku">MYJ.91134</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-3">3</a></p>
+  <label class="pick" for="pick-MYJ-91134"><input type="checkbox" id="pick-MYJ-91134" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/Afbeelding-van-WhatsApp-op-2025-11-20-om-13.41.33_21f1e018bigdefdefdef.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/Afbeelding-van-WhatsApp-op-2025-11-20-om-13.41.33_21f1e018bigdefdefdef-600x436.jpg" alt="A-Journal Meal Planner" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Meal Planner</h3>
+  <p class="sku">MYJ.91136</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-3">3</a></p>
+  <label class="pick" for="pick-MYJ-91136"><input type="checkbox" id="pick-MYJ-91136" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/grocery-scaled.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/grocery-600x436.jpg" alt="A-Journal Notepad Grocery List" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Notepad Grocery List</h3>
+  <p class="sku">MYJ.91135</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-3">3</a></p>
+  <label class="pick" for="pick-MYJ-91135"><input type="checkbox" id="pick-MYJ-91135" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+<section class="group">
+  <header class="group-head"><h2>Games</h2><p>6 producten · 78 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91140-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91140-scaled-1-600x436.png.jpg" alt="A-Yatzy - Yahtzee - Blue" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Yatzy - Yahtzee - Blue</h3>
+  <p class="sku">MYJ.91140</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6 · aanname</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-4">4</a></p>
+  <label class="pick" for="pick-MYJ-91140"><input type="checkbox" id="pick-MYJ-91140" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91139-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91139-scaled-1-600x436.png.jpg" alt="A-Yatzy - Yahtzee - Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Yatzy - Yahtzee - Pink Red</h3>
+  <p class="sku">MYJ.91139</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6 · aanname</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-4">4</a></p>
+  <label class="pick" for="pick-MYJ-91139"><input type="checkbox" id="pick-MYJ-91139" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/06/FAB.91278-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/06/FAB.91278-scaled-1-600x436.jpg" alt="Fabrique Puzzle Mini - City life" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>Fabrique Puzzle Mini - City life</h3>
+  <p class="sku">FAB.91278</p>
+  <p class="qty"><strong>6 st</strong><span>1 doosje à 6 · aanname</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-4">4</a></p>
+  <label class="pick" for="pick-FAB-91278"><input type="checkbox" id="pick-FAB-91278" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a.jpeg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a-600x436.jpeg" alt="A-Journal Playing Cards" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Playing Cards</h3>
+  <p class="sku">MYJ.91075</p>
+  <p class="qty"><strong>20 st</strong><span>18 of 24 in doosjes à 6</span></p>
+  <p class="flag">Te bevestigen · punten <a href="#punt-6">6</a> en <a href="#punt-8">8</a></p>
+  <label class="pick" for="pick-MYJ-91075"><input type="checkbox" id="pick-MYJ-91075" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/summer-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/summer-1-600x436.png.jpg" alt="Fabrique Playing Cards - Summer" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>Fabrique Playing Cards - Summer</h3>
+  <p class="sku">FAB.91251</p>
+  <p class="qty"><strong>20 st</strong><span>18 of 24 in doosjes à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-8">8</a></p>
+  <label class="pick" for="pick-FAB-91251"><input type="checkbox" id="pick-FAB-91251" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/winter-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/winter-1-600x436.png.jpg" alt="Fabrique Playing Cards - Winter" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>Fabrique Playing Cards - Winter</h3>
+  <p class="sku">FAB.91252</p>
+  <p class="qty"><strong>20 st</strong><span>18 of 24 in doosjes à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-8">8</a></p>
+  <label class="pick" for="pick-FAB-91252"><input type="checkbox" id="pick-FAB-91252" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+<section class="group">
+  <header class="group-head"><h2>Pennen</h2><p>2 producten · 40 stuks</p></header>
+  <div class="grid">
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91157-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91157-scaled-1-600x436.jpg" alt="A-Journal Pen - Golden" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Pen - Golden</h3>
+  <p class="sku">MYJ.91157</p>
+  <p class="qty"><strong>20 st</strong><span>18 of 24 in doosjes à 6</span></p>
+  <p class="flag">Te bevestigen · punt <a href="#punt-8">8</a></p>
+  <label class="pick" for="pick-MYJ-91157"><input type="checkbox" id="pick-MYJ-91157" data-pick> Klaargelegd</label>
+</article>
+<article class="item">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1-600x436.jpg" alt="A-Journal Pen - Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <h3>A-Journal Pen - Pink Red</h3>
+  <p class="sku">MYJ.91158</p>
+  <p class="qty"><strong>20 st</strong><span>18 of 24 in doosjes à 6</span></p>
+  <p class="flag">Te bevestigen · punten <a href="#punt-5">5</a> en <a href="#punt-8">8</a></p>
+  <label class="pick" for="pick-MYJ-91158"><input type="checkbox" id="pick-MYJ-91158" data-pick> Klaargelegd</label>
+</article>
+  </div>
+</section>
+  <section class="open" id="te-bevestigen">
+    <header class="group-head"><h2>Te bevestigen</h2><p>9 punten</p></header>
+    <p class="open-intro">Bij deze punten was de lijst niet eenduidig. Wat nu in het overzicht staat is de aanname; antwoord per nummer als het anders moet.</p>
+    <ol class="doubts">
+<li class="doubt" id="punt-1">
+  <h3>Welke 91032 bedoel je?</h3>
+  <p class="why">Je noemde 91032 zonder merk. Er zijn er twee.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2021/04/voorkant-website-10-scaled.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2021/04/voorkant-website-10-scaled-600x436.jpg" alt="A-Journal Notebook - Arty" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Notebook - Arty</p>
+  <p class="sku">MYJ.91032</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Alternatief</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2021/11/voorkant-website-nieuw.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2021/11/voorkant-website-nieuw-600x436.jpg" alt="&amp;INK Christmas Cards - Set of 10 - Green" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">&amp;INK Christmas Cards - Set of 10 - Green</p>
+  <p class="sku">INK.91032</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-2">
+  <h3>Beide A-Planners: 2027 of 2026?</h3>
+  <p class="why">De rest van de lijst is de 2027-collectie, dus 2027 is aangenomen.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27023-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27023-scaled-1-600x436.jpg" alt="A-Planner Diary 2027 - Beige Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Planner Diary 2027 - Beige Linen</p>
+  <p class="sku">MYJ.27023</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27024-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27024-scaled-1-600x436.jpg" alt="A-Planner Diary 2027 - Pink Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Planner Diary 2027 - Pink Linen</p>
+  <p class="sku">MYJ.27024</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Alternatief</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/A03-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/A03-scaled-1-600x436.jpg" alt="A-Planner 2026 - Beige Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Planner 2026 - Beige Linen</p>
+  <p class="sku">MYJ.26020</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/A01-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/A01-scaled-1-600x436.jpg" alt="A-Planner 2026 - Orange Linen" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Planner 2026 - Orange Linen</p>
+  <p class="sku">MYJ.26021</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-3">
+  <h3>Blauwe kitchen set: horen de kaartjes erbij?</h3>
+  <p class="why">De drie blauwe producten staan in het overzicht. De Menu Cards en Table Name Cards Stripes zijn rood-roze en staan er nu niet in.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/recipe-def.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/recipe-def-600x436.jpg" alt="A-Journal Recipe Journal" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Recipe Journal</p>
+  <p class="sku">MYJ.91134</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/Afbeelding-van-WhatsApp-op-2025-11-20-om-13.41.33_21f1e018bigdefdefdef.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/Afbeelding-van-WhatsApp-op-2025-11-20-om-13.41.33_21f1e018bigdefdefdef-600x436.jpg" alt="A-Journal Meal Planner" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Meal Planner</p>
+  <p class="sku">MYJ.91136</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/grocery-scaled.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/grocery-600x436.jpg" alt="A-Journal Notepad Grocery List" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Notepad Grocery List</p>
+  <p class="sku">MYJ.91135</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Ook erbij?</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/menukaart-stripe-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/menukaart-stripe-scaled-1-600x436.png.jpg" alt="A-Journal Menu Cards Stripes - Set of 8" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Menu Cards Stripes - Set of 8</p>
+  <p class="sku">MYJ.91137</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/11/menukaartjes-stripe-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/11/menukaartjes-stripe-scaled-1-600x436.png.jpg" alt="A-Journal Table Name Cards Stripes - Set of 8" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Table Name Cards Stripes - Set of 8</p>
+  <p class="sku">MYJ.91138</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-4">
+  <h3>Yatzy en mini puzzel: hoeveel, en gaan de refills mee?</h3>
+  <p class="why">Bij de twee yatzy’s en de mini puzzel City life stond geen aantal. Aangenomen: 1 doosje (6 stuks) per product, zonder refills.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen · 6 per stuk</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91140-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91140-scaled-1-600x436.png.jpg" alt="A-Yatzy - Yahtzee - Blue" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Yatzy - Yahtzee - Blue</p>
+  <p class="sku">MYJ.91140</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91139-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91139-scaled-1-600x436.png.jpg" alt="A-Yatzy - Yahtzee - Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Yatzy - Yahtzee - Pink Red</p>
+  <p class="sku">MYJ.91139</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/06/FAB.91278-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/06/FAB.91278-scaled-1-600x436.jpg" alt="Fabrique Puzzle Mini - City life" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Puzzle Mini - City life</p>
+  <p class="sku">FAB.91278</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Refills ook mee?</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91146-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91146-scaled-1-600x436.png.jpg" alt="A-Yatzy Refill Blue" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Yatzy Refill Blue</p>
+  <p class="sku">MYJ.91146</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91145-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/02/MYJ.91145-scaled-1-600x436.png.jpg" alt="A-Yatzy Refill Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Yatzy Refill Pink Red</p>
+  <p class="sku">MYJ.91145</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-5">
+  <h3>Roze rode pen: Pink Red of Coral Bordeaux?</h3>
+  <p class="why">Pink Red past het best bij de omschrijving en is aangenomen.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1-600x436.jpg" alt="A-Journal Pen - Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Pen - Pink Red</p>
+  <p class="sku">MYJ.91158</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Alternatief</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91161-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91161-scaled-1-600x436.jpg" alt="A-Journal Pen - Coral Bordeaux" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Pen - Coral Bordeaux</p>
+  <p class="sku">MYJ.91161</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-6">
+  <h3>Playing cards classic roze: welke van deze twee?</h3>
+  <p class="why">Beide zijn roze-rood gestreept. De A-Journal-variant zonder themanaam is aangenomen; Summer en Winter zijn Fabrique.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a.jpeg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a-600x436.jpeg" alt="A-Journal Playing Cards" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Playing Cards</p>
+  <p class="sku">MYJ.91075</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Alternatief</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/58CPnswM-scaled-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/58CPnswM-scaled-1-600x436.png.jpg" alt="Fabrique Playing Cards Stripes - Red Pink" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Playing Cards Stripes - Red Pink</p>
+  <p class="sku">FAB.91253</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-7">
+  <h3>27002 en 27004: My Journal of Fabrique?</h3>
+  <p class="why">Je schreef MYJ, dus My Journal is aangenomen. Dezelfde nummers bestaan ook bij Fabrique.</p>
+  <div class="opts"><div class="opt opt--assumed">
+  <p class="opt-head"><span class="opt-letter">A</span>Aangenomen</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27002-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27002-scaled-1-600x436.jpg" alt="My Journal Diary 2027 - Floral Dark Blue/Light Blue" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">My Journal Diary 2027 - Floral Dark Blue/Light Blue</p>
+  <p class="sku">MYJ.27002</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27004-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.27004-scaled-1-600x436.jpg" alt="My Journal Diary 2027 - Chocolate" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">My Journal Diary 2027 - Chocolate</p>
+  <p class="sku">MYJ.27004</p>
+</div></div>
+</div><div class="opt">
+  <p class="opt-head"><span class="opt-letter">B</span>Alternatief</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/FAB.27002-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/FAB.27002-scaled-1-600x436.jpg" alt="Fabrique Diary 2027 - Flow Sun Pink" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Diary 2027 - Flow Sun Pink</p>
+  <p class="sku">FAB.27002</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/FAB.27004-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/FAB.27004-scaled-1-600x436.jpg" alt="Fabrique Diary 2027 - Pink Stripes" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Diary 2027 - Pink Stripes</p>
+  <p class="sku">FAB.27004</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-8">
+  <h3>Aantal 20: wordt dat 18 of 24?</h3>
+  <p class="why">Alle producten gaan op wholesale per 6. Pennen en speelkaarten staan nu op 20 stuks; in hele doosjes is dat 18 (3 doosjes) of 24 (4 doosjes). Voor de producten van rond de 30 komt het precies uit: 5 doosjes. De inhoud van de omdoos staat niet in de webshop.</p>
+  <div class="opts"><div class="opt">
+  <p class="opt-head">Gaat om deze vijf</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91157-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91157-scaled-1-600x436.jpg" alt="A-Journal Pen - Golden" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Pen - Golden</p>
+  <p class="sku">MYJ.91157</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/08/MYJ.91158-scaled-1-600x436.jpg" alt="A-Journal Pen - Pink Red" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Pen - Pink Red</p>
+  <p class="sku">MYJ.91158</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a.jpeg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/04/c9efc1ea2f3beab7a4acbda24b065344cc8f54d10ddbe3de2a987f2640e7326a-600x436.jpeg" alt="A-Journal Playing Cards" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Playing Cards</p>
+  <p class="sku">MYJ.91075</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/summer-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/summer-1-600x436.png.jpg" alt="Fabrique Playing Cards - Summer" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Playing Cards - Summer</p>
+  <p class="sku">FAB.91251</p>
+</div><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2025/09/winter-1.png" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2025/09/winter-1-600x436.png.jpg" alt="Fabrique Playing Cards - Winter" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">Fabrique Playing Cards - Winter</p>
+  <p class="sku">FAB.91252</p>
+</div></div>
+</div></div>
+</li>
+<li class="doubt" id="punt-9">
+  <h3>MYJ.91165: klopt de naam bij het product?</h3>
+  <p class="why">Het product heet Checkered Circus Blue White, maar op wholesale staat er een foto van een oranjerood geruit notitieboek bij. Controleer of dit het notitieboek is dat je bedoelt.</p>
+  <div class="opts"><div class="opt">
+  <p class="opt-head">Foto op a-journal.nl</p>
+  <div class="minis"><div class="mini">
+  <a class="shot" href="https://www.a-journal.nl/wp-content/uploads/2026/09/MYJ.91165.jpg" target="_blank" rel="noopener" title="Open de foto op a-journal.nl"><img src="https://www.a-journal.nl/wp-content/uploads/2026/09/MYJ.91165-600x436.png.jpg" alt="A-Journal Notebook Checkered Circus Blue White" width="600" height="436" loading="lazy" referrerpolicy="no-referrer" onload="this.dataset.ok=1" onerror="this.parentNode.classList.add('shot--none')"><span class="shot-fallback">Foto laadt niet · open op a-journal.nl</span></a>
+  <p class="mini-name">A-Journal Notebook Checkered Circus Blue White</p>
+  <p class="sku">MYJ.91165</p>
+</div></div>
+</div></div>
+</li>
+    </ol>
+  </section>
+  <p class="foot">Productnamen en aantallen: wholesale.a-journal.nl, 1 oktober 2026. De foto's worden rechtstreeks van www.a-journal.nl geladen; deze pagina bevat zelf geen foto's. Een doosje is de wholesale-besteleenheid van 6 stuks; de inhoud van de omdoos staat niet in de webshop. Voorraad is niet gecontroleerd.</p>
+</main>
+<script>
+(function () {
+  var KEY = 'beurssamples-picks-2026-10';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('input[data-pick]'));
+  var out = document.getElementById('picked');
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  function render() {
+    var n = boxes.filter(function (b) { return b.checked; }).length;
+    if (out) out.textContent = n;
+  }
+  boxes.forEach(function (b) {
+    if (saved[b.id]) b.checked = true;
+    b.addEventListener('change', function () {
+      saved[b.id] = b.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      render();
+    });
+  });
+  render();
+  var pb = document.getElementById('print-btn');
+  if (pb) pb.addEventListener('click', function () {
+    Array.prototype.forEach.call(document.images, function (i) { i.loading = 'eager'; });
+    window.print();
+  });
+})();
+</script>
+</body>
+</html>
